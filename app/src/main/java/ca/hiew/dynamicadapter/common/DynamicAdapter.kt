@@ -16,7 +16,6 @@ class DynamicAdapter(
     val uiEventStream = uiEventRelay.toFlowable(BackpressureStrategy.BUFFER)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicViewHolder<UIState> {
-        val context = parent.context
         return factory.getViewHolder(viewType, parent.context)
     }
 
@@ -24,11 +23,21 @@ class DynamicAdapter(
         holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int  = items.size
+    override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int = items[position].getViewType(factory)
 
-    fun setItem(newItems: Collection<UIState>) {
+    override fun onViewDetachedFromWindow(holder: DynamicViewHolder<UIState>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onAttach()
+    }
+
+    override fun onViewAttachedToWindow(holder: DynamicViewHolder<UIState>) {
+        super.onViewAttachedToWindow(holder)
+        holder.onDetach()
+    }
+
+    fun setItems(newItems: Collection<UIState>) {
         diffCallback.setItems(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 

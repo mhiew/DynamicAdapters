@@ -16,16 +16,14 @@ import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class DogViewHolder(private val dogView: DogView) : DynamicViewHolder<DogUIState>(dogView) {
-    private val viewHolderUIEvent : Observable<ViewHolderUIEvent> = Observable.defer {
-        Observables.combineLatest(Observable.just(adapterPosition), Observable.wrap(dogView)) { position, event -> ViewHolderUIEvent(adapterPosition, event)
-        }
-    }
+    private val viewHolderUIEvent: Observable<ViewHolderUIEvent> =
+        Observable.wrap(dogView).map { event -> ViewHolderUIEvent(adapterPosition, event) }
 
     override fun bind(state: DogUIState) {
         compositeDisposable.clear()
         dogView.accept(state)
         compositeDisposable += viewHolderUIEvent.subscribeBy(
-            onNext = {Timber.d("$it") }
+            onNext = { Timber.d("$it") }
         )
     }
 

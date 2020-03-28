@@ -14,7 +14,6 @@ abstract class DynamicViewHolder<S : UIState>(
 {
     abstract fun bind(state: S)
     open fun onAttach() {}
-    open fun onDetach() {
-        compositeDisposable.clear()
-    }
+    open fun onDetach() {}
 }
+

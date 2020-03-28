@@ -10,15 +10,17 @@ import ca.hiew.dynamicadapter.util.exhaustive
 import io.reactivex.functions.Consumer
 
 class CatView : ConstraintLayout, Consumer<CatUIState> {
-    private val idTextView: TextView
-    private val nameTextView: TextView
+    private val idTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_id) }
+    private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_name) }
 
     constructor(context: Context?, attrs: AttributeSet? = null) : super(context, attrs) {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         View.inflate(context, R.layout.cat_view, this)
-        idTextView = findViewById(R.id.cat_view_id)
-        nameTextView = findViewById(R.id.cat_view_name)
         setBackgroundResource(R.color.colorPrimary)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
     }
 
     override fun accept(state: CatUIState) {

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
 import ca.hiew.dynamicadapter.common.UIView
+import ca.hiew.dynamicadapter.util.exhaustive
 
 class CatView : ConstraintLayout, UIView<CatUIState> {
     private val idTextView: TextView
@@ -21,7 +22,22 @@ class CatView : ConstraintLayout, UIView<CatUIState> {
     }
 
     override fun display(uiState: CatUIState) {
-        idTextView.text = uiState.id.toString()
-        nameTextView.text = uiState.name
+        when (uiState) {
+            is CatUIState.Success -> display(uiState.cat)
+            is CatUIState.Loading -> display(uiState.cat)
+            is CatUIState.Error -> display(uiState.errorMessage)
+        }.exhaustive
+    }
+
+    private fun display(cat: Cat) = with(cat) {
+        idTextView.visibility = VISIBLE
+        idTextView.text = id.toString()
+        nameTextView.text = name
+    }
+
+    private fun display(errorMessage: String?) {
+        idTextView.visibility = GONE
+        nameTextView.text = errorMessage
     }
 }
+

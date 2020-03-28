@@ -27,13 +27,13 @@ class DynamicAdapter(
 
     override fun getItemViewType(position: Int): Int = items[position].getViewType(factory)
 
-    override fun onViewDetachedFromWindow(holder: DynamicViewHolder<UIState>) {
-        super.onViewDetachedFromWindow(holder)
+    override fun onViewAttachedToWindow(holder: DynamicViewHolder<UIState>) {
+        super.onViewAttachedToWindow(holder)
         holder.onAttach()
     }
 
-    override fun onViewAttachedToWindow(holder: DynamicViewHolder<UIState>) {
-        super.onViewAttachedToWindow(holder)
+    override fun onViewDetachedFromWindow(holder: DynamicViewHolder<UIState>) {
+        super.onViewDetachedFromWindow(holder)
         holder.onDetach()
     }
 

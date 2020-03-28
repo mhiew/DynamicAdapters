@@ -16,8 +16,9 @@ import io.reactivex.functions.Consumer
 class DogView(
     context: Context?,
     attrs: AttributeSet? = null,
+    defStyle: Int = 0,
     private val eventRelay: PublishRelay<UIEvent> = PublishRelay.create()
-) : ConstraintLayout(context, attrs),
+) : ConstraintLayout(context, attrs, defStyle),
     Consumer<DogUIState>,
     ObservableSource<UIEvent> {
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.dog_view_id) }
@@ -27,11 +28,16 @@ class DogView(
     init {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         View.inflate(context, R.layout.dog_view, this)
-        setBackgroundResource(R.color.colorPrimaryDark)
+        setup()
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        setup()
+    }
+
+    private fun setup() {
+        setBackgroundResource(R.color.colorPrimaryDark)
         button.setOnClickListener {
             eventRelay.accept(Event.DogButtonClicked)
         }

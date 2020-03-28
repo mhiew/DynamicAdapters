@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
-import ca.hiew.dynamicadapter.common.UIView
+import io.reactivex.functions.Consumer
 
-class DogView : ConstraintLayout, UIView<DogUIState> {
+class DogView : ConstraintLayout, Consumer<DogUIState> {
     private val idTextView: TextView
     private val nameTextView: TextView
 
@@ -20,7 +20,7 @@ class DogView : ConstraintLayout, UIView<DogUIState> {
         setBackgroundResource(R.color.colorPrimaryDark)
     }
 
-    override fun display(uiState: DogUIState) {
+    override fun accept(uiState: DogUIState) {
         idTextView.text = uiState.id.toString()
         nameTextView.text = uiState.name
     }

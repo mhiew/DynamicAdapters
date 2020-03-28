@@ -6,7 +6,7 @@ import ca.hiew.dynamicadapter.common.DynamicViewHolder
 
 class CatViewHolder(private val catView: CatView) : DynamicViewHolder<CatUIState>(catView) {
     override fun bind(state: CatUIState) {
-        catView.display(state)
+        catView.accept(state)
     }
 
     companion object {

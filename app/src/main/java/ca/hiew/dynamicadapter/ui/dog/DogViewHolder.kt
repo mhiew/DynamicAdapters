@@ -5,7 +5,7 @@ import ca.hiew.dynamicadapter.common.DynamicViewHolder
 
 class DogViewHolder(private val dogView: DogView) : DynamicViewHolder<DogUIState>(dogView) {
     override fun bind(state: DogUIState) {
-        dogView.display(state)
+        dogView.accept(state)
     }
 
     companion object {

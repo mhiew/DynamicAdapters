@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
-import ca.hiew.dynamicadapter.common.UIView
 import ca.hiew.dynamicadapter.util.exhaustive
+import io.reactivex.functions.Consumer
 
-class CatView : ConstraintLayout, UIView<CatUIState> {
+class CatView : ConstraintLayout, Consumer<CatUIState> {
     private val idTextView: TextView
     private val nameTextView: TextView
 
@@ -21,11 +21,11 @@ class CatView : ConstraintLayout, UIView<CatUIState> {
         setBackgroundResource(R.color.colorPrimary)
     }
 
-    override fun display(uiState: CatUIState) {
-        when (uiState) {
-            is CatUIState.Success -> display(uiState.cat)
-            is CatUIState.Loading -> display(uiState.cat)
-            is CatUIState.Error -> display(uiState.errorMessage)
+    override fun accept(state: CatUIState) {
+        when (state) {
+            is CatUIState.Success -> display(state.cat)
+            is CatUIState.Loading -> display(state.cat)
+            is CatUIState.Error -> display(state.errorMessage)
         }.exhaustive
     }
 

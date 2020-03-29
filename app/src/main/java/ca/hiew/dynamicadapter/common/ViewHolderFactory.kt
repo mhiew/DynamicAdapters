@@ -5,11 +5,11 @@ import ca.hiew.dynamicadapter.ui.cat.CatUIState
 import ca.hiew.dynamicadapter.ui.cat.CatView
 import ca.hiew.dynamicadapter.ui.dog.DogUIState
 import ca.hiew.dynamicadapter.ui.dog.DogView
-import com.jakewharton.rxrelay2.Relay
+import io.reactivex.functions.Consumer
 
 interface ViewHolderFactory {
     fun getViewType(state: UIState): Int
-    fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): ViewHolder<UIState>
+    fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIState>
 }
 
 class UIViewHolderFactory : ViewHolderFactory {
@@ -26,11 +26,11 @@ class UIViewHolderFactory : ViewHolderFactory {
         }
     }
 
-    override fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): ViewHolder<UIState> {
+    override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIState> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
-            ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventRelay = eventRelay)
-            ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventRelay = eventRelay)
+            ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventOutput = eventOutput)
+            ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventOutput = eventOutput)
             else -> throw RuntimeException("cannot find corresponding ViewHolder for viewType $viewType")
         } as ViewHolder<UIState>
     }

@@ -3,6 +3,7 @@ package ca.hiew.dynamicadapter.common
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay2.PublishRelay
+import com.jakewharton.rxrelay2.Relay
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +19,7 @@ abstract class UIStateViewHolder<S : UIState>(view: View) : RecyclerView.ViewHol
 
 class UIViewHolder<V, S : UIState>(
     private val view: V,
-    private val eventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create(),
+    private val eventRelay: Relay<ViewHolderUIEvent> = PublishRelay.create(),
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 ) :
     UIStateViewHolder<S>(view),

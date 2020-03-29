@@ -4,19 +4,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.BackpressureStrategy
+import io.reactivex.ObservableSource
 
 class DynamicAdapter(
     private val items: MutableList<UIState> = mutableListOf(),
     private val factory: ViewHolderFactory = UIViewHolderFactory(),
-    private val uiEventRelay: PublishRelay<UIEvent> = PublishRelay.create()
-) : RecyclerView.Adapter<UIStateViewHolder<UIState>>() {
+    private val viewHolderUiEventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
+) :
+    RecyclerView.Adapter<UIStateViewHolder<UIState>>(),
+    ObservableSource<ViewHolderUIEvent> by viewHolderUiEventRelay {
 
     val diffCallback = DiffCallback()
-    val uiEventStream = uiEventRelay.toFlowable(BackpressureStrategy.BUFFER)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UIStateViewHolder<UIState> {
-        return factory.getViewHolder(viewType, parent.context)
+        return factory.getViewHolder(viewType, parent.context, viewHolderUiEventRelay)
     }
 
     override fun onBindViewHolder(holder: UIStateViewHolder<UIState>, position: Int) {

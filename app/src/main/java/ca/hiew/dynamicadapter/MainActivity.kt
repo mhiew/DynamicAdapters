@@ -6,12 +6,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.DynamicAdapter
 import ca.hiew.dynamicadapter.common.UIState
+import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
 import ca.hiew.dynamicadapter.ui.cat.CatUIState
 import ca.hiew.dynamicadapter.ui.dog.DogUIState
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 class MainActivity : Activity() {
     private val adapter = DynamicAdapter()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +32,14 @@ class MainActivity : Activity() {
         super.onResume()
         val items = loadData()
         adapter.setItems(items)
+        compositeDisposable += Observable.wrap(adapter).subscribeBy(
+            onNext = { event: ViewHolderUIEvent -> Timber.d("$event")}
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        compositeDisposable.dispose()
     }
 
     private fun loadData(): List<UIState> {

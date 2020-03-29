@@ -8,10 +8,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
 import ca.hiew.dynamicadapter.common.UIEvent
+import ca.hiew.dynamicadapter.common.UIView
 import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.ObservableSource
 import io.reactivex.Observer
-import io.reactivex.functions.Consumer
 
 class DogView(
     context: Context?,
@@ -19,8 +18,8 @@ class DogView(
     defStyle: Int = 0,
     private val eventRelay: PublishRelay<UIEvent> = PublishRelay.create()
 ) : ConstraintLayout(context, attrs, defStyle),
-    Consumer<DogUIState>,
-    ObservableSource<UIEvent> {
+    UIView<DogUIState>
+{
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.dog_view_id) }
     private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.dog_view_name) }
     private val button: Button by lazy { findViewById<Button>(R.id.dog_view_button) }

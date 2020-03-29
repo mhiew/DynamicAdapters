@@ -2,36 +2,35 @@ package ca.hiew.dynamicadapter.common
 
 import android.content.Context
 import ca.hiew.dynamicadapter.ui.cat.CatUIState
-import ca.hiew.dynamicadapter.ui.cat.CatViewHolder
+import ca.hiew.dynamicadapter.ui.cat.CatView
 import ca.hiew.dynamicadapter.ui.dog.DogUIState
-import ca.hiew.dynamicadapter.ui.dog.DogViewHolder
+import ca.hiew.dynamicadapter.ui.dog.DogView
 
 interface ViewHolderFactory {
     fun getViewType(state: UIState): Int
-    fun getViewHolder(viewType: Int, context: Context): DynamicViewHolder<UIState>
+    fun getViewHolder(viewType: Int, context: Context): UIStateViewHolder<UIState>
 }
 
-class DynamicViewHolderFactory() : ViewHolderFactory {
-    private enum class View {
+class UIViewHolderFactory : ViewHolderFactory {
+    private enum class ViewType {
         CAT,
         DOG
     }
-    private val View.type get() = this.ordinal
 
     override fun getViewType(state: UIState): Int {
         return when (state) {
-            is CatUIState -> View.CAT.type
-            is DogUIState -> View.DOG.type
+            is CatUIState -> ViewType.CAT.ordinal
+            is DogUIState -> ViewType.DOG.ordinal
             else -> throw RuntimeException("cannot find corresponding UIState $state")
         }
     }
 
-    override fun getViewHolder(viewType: Int, context: Context): DynamicViewHolder<UIState> {
+    override fun getViewHolder(viewType: Int, context: Context): UIStateViewHolder<UIState> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
-            View.CAT.type -> CatViewHolder.create(context)
-            View.DOG.type -> DogViewHolder.create(context)
+            ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context))
+            ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context))
             else -> throw RuntimeException("cannot find corresponding ViewHolder for viewType $viewType")
-        } as DynamicViewHolder<UIState>
+        } as UIStateViewHolder<UIState>
     }
 }

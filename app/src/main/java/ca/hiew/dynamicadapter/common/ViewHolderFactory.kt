@@ -8,7 +8,7 @@ import ca.hiew.dynamicadapter.ui.dog.DogView
 import io.reactivex.functions.Consumer
 
 interface ViewHolderFactory {
-    fun getViewType(state: UIState): Int
+    fun getViewType(state: RecyclerViewUIState): Int
     fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIState>
 }
 
@@ -18,7 +18,7 @@ class UIViewHolderFactory : ViewHolderFactory {
         DOG
     }
 
-    override fun getViewType(state: UIState): Int {
+    override fun getViewType(state: RecyclerViewUIState): Int {
         return when (state) {
             is CatUIState -> ViewType.CAT.ordinal
             is DogUIState -> ViewType.DOG.ordinal

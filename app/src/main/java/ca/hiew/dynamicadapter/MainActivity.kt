@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.DynamicAdapter
 import ca.hiew.dynamicadapter.common.RecyclerViewUIState
-import ca.hiew.dynamicadapter.common.UIState
 import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
 import ca.hiew.dynamicadapter.ui.cat.CatUIState
@@ -14,6 +13,7 @@ import ca.hiew.dynamicadapter.ui.cat.CatView
 import ca.hiew.dynamicadapter.ui.dog.DogUIState
 import ca.hiew.dynamicadapter.ui.dog.DogView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -35,12 +35,18 @@ class MainActivity : Activity() {
         super.onResume()
         val items = loadData()
         adapter.setItems(items)
-        compositeDisposable += Observable.wrap(adapter).subscribeBy(
+        compositeDisposable += Observable.wrap(adapter)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
             onNext = { event: ViewHolderUIEvent ->
                 Timber.d("$event")
                 when (event.uiEvent) {
-                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position}") }
-                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position}") }
+                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position}")
+                        adapter.setItems(shuffleData())
+                    }
+                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position}")
+                        adapter.setItems(loadData())
+                    }
                 }
             }
         )
@@ -62,5 +68,11 @@ class MainActivity : Activity() {
             }
         }
         return items
+    }
+
+    private fun shuffleData(): List<RecyclerViewUIState> {
+        val shuffledList = loadData().toMutableList()
+            shuffledList.shuffle()
+        return shuffledList
     }
 }

@@ -9,7 +9,9 @@ import ca.hiew.dynamicadapter.common.UIState
 import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
 import ca.hiew.dynamicadapter.ui.cat.CatUIState
+import ca.hiew.dynamicadapter.ui.cat.CatView
 import ca.hiew.dynamicadapter.ui.dog.DogUIState
+import ca.hiew.dynamicadapter.ui.dog.DogView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -33,24 +35,28 @@ class MainActivity : Activity() {
         val items = loadData()
         adapter.setItems(items)
         compositeDisposable += Observable.wrap(adapter).subscribeBy(
-            onNext = { event: ViewHolderUIEvent -> Timber.d("$event")}
+            onNext = { event: ViewHolderUIEvent ->
+                Timber.d("$event")
+                when (event.uiEvent) {
+                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position}") }
+                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position}") }
+                }
+            }
         )
     }
 
     override fun onPause() {
         super.onPause()
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 
     private fun loadData(): List<UIState> {
         val items: List<UIState> = (0 until 20).toList().map {
             if (it % 2 == 0) {
                 DogUIState(id = it, name = "dog $it")
-            }
-            else if(it % 3 == 0) {
+            } else if (it % 3 == 0) {
                 CatUIState.Error("fake error $it")
-            }
-            else {
+            } else {
                 CatUIState.Success(Cat(id = it, name = "cat $it"))
             }
         }

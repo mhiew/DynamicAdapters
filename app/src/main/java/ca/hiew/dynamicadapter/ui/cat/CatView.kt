@@ -11,7 +11,6 @@ import ca.hiew.dynamicadapter.common.UIView
 import ca.hiew.dynamicadapter.util.exhaustive
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observer
-import io.reactivex.functions.Consumer
 
 class CatView @JvmOverloads constructor(
     context: Context?,
@@ -27,11 +26,19 @@ class CatView @JvmOverloads constructor(
     init {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         View.inflate(context, R.layout.cat_view, this)
-        setBackgroundResource(R.color.colorPrimary)
+        setup()
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        setup()
+    }
+
+    private fun setup() {
+        setBackgroundResource(R.color.colorPrimary)
+        this.setOnClickListener {
+            eventRelay.accept(Event.CatViewClicked)
+        }
     }
 
     override fun accept(state: CatUIState) {
@@ -54,7 +61,11 @@ class CatView @JvmOverloads constructor(
     }
 
     override fun subscribe(observer: Observer<in UIEvent>) {
-        //no-op
+        eventRelay.subscribe(observer)
+    }
+
+    sealed class Event : UIEvent {
+        object CatViewClicked : Event()
     }
 }
 

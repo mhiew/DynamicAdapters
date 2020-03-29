@@ -9,7 +9,7 @@ import com.jakewharton.rxrelay2.Relay
 
 interface ViewHolderFactory {
     fun getViewType(state: UIState): Int
-    fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): UIStateViewHolder<UIState>
+    fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): ViewHolder<UIState>
 }
 
 class UIViewHolderFactory : ViewHolderFactory {
@@ -26,12 +26,12 @@ class UIViewHolderFactory : ViewHolderFactory {
         }
     }
 
-    override fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): UIStateViewHolder<UIState> {
+    override fun getViewHolder(viewType: Int, context: Context, eventRelay: Relay<ViewHolderUIEvent>): ViewHolder<UIState> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
             ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventRelay = eventRelay)
             ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventRelay = eventRelay)
             else -> throw RuntimeException("cannot find corresponding ViewHolder for viewType $viewType")
-        } as UIStateViewHolder<UIState>
+        } as ViewHolder<UIState>
     }
 }

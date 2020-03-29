@@ -9,18 +9,16 @@ import ca.hiew.dynamicadapter.R
 import ca.hiew.dynamicadapter.common.UIEvent
 import ca.hiew.dynamicadapter.common.UIView
 import ca.hiew.dynamicadapter.util.exhaustive
-import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.ObservableSource
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.Observer
 
 class CatView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
-    defStyle: Int = 0,
-    private val eventRelay: PublishRelay<UIEvent> = PublishRelay.create()
+    defStyle: Int = 0
 ) :
     ConstraintLayout(context, attrs, defStyle),
-    UIView<CatUIState>,
-    ObservableSource<UIEvent> by eventRelay {
+    UIView<CatUIState> {
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_id) }
     private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_name) }
 
@@ -37,9 +35,11 @@ class CatView @JvmOverloads constructor(
 
     private fun setup() {
         setBackgroundResource(R.color.colorPrimary)
-        this.setOnClickListener {
-            eventRelay.accept(Event.CatViewClicked)
-        }
+    }
+
+    override fun subscribe(observer: Observer<in UIEvent>) {
+        this.clicks().map { Event.CatViewClicked }
+            .subscribe(observer)
     }
 
     override fun accept(state: CatUIState) {

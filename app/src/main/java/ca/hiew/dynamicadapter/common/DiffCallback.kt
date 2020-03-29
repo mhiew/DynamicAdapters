@@ -3,11 +3,11 @@ package ca.hiew.dynamicadapter.common
 import androidx.recyclerview.widget.DiffUtil
 
 class DiffCallback(
-    private val oldItems: MutableList<UIState> = mutableListOf(),
-    private val newItems: MutableList<UIState> = mutableListOf()
+    private val oldItems: MutableList<RecyclerViewUIState> = mutableListOf(),
+    private val newItems: MutableList<RecyclerViewUIState> = mutableListOf()
 ) : DiffUtil.Callback() {
 
-    fun <T : UIState> setItems(oldItems: Collection<T>, newItems: Collection<T>) {
+    fun <T : RecyclerViewUIState> setItems(oldItems: Collection<T>, newItems: Collection<T>) {
         this.oldItems.clear()
         this.oldItems.addAll(oldItems)
         this.newItems.clear()

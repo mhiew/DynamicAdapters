@@ -1,6 +1,6 @@
 package ca.hiew.dynamicadapter.ui.cat
 
-import ca.hiew.dynamicadapter.common.UIState
+import ca.hiew.dynamicadapter.common.RecyclerViewUIState
 import ca.hiew.dynamicadapter.util.areTheSame
 
 data class Cat(
@@ -8,7 +8,7 @@ data class Cat(
     val name: String
 )
 
-sealed class CatUIState : UIState {
+sealed class CatUIState : RecyclerViewUIState {
     data class Success(val cat: Cat) : CatUIState() {
         override fun areItemsTheSame(o: Any?): Boolean =
             areTheSame(o) { other -> cat.id == other.cat.id }

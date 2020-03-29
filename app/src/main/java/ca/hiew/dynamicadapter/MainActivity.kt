@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.DynamicAdapter
+import ca.hiew.dynamicadapter.common.RecyclerViewUIState
 import ca.hiew.dynamicadapter.common.UIState
 import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
@@ -50,8 +51,8 @@ class MainActivity : Activity() {
         compositeDisposable.clear()
     }
 
-    private fun loadData(): List<UIState> {
-        val items: List<UIState> = (0 until 20).toList().map {
+    private fun loadData(): List<RecyclerViewUIState> {
+        val items: List<RecyclerViewUIState> = (0 until 20).toList().map {
             if (it % 2 == 0) {
                 DogUIState(id = it, name = "dog $it")
             } else if (it % 3 == 0) {

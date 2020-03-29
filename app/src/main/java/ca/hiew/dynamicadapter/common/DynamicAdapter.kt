@@ -7,7 +7,7 @@ import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.ObservableSource
 
 class DynamicAdapter(
-    private val items: MutableList<UIState> = mutableListOf(),
+    private val items: MutableList<RecyclerViewUIState> = mutableListOf(),
     private val factory: ViewHolderFactory = UIViewHolderFactory(),
     private val viewHolderUIEventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
 ) :
@@ -27,7 +27,7 @@ class DynamicAdapter(
 
     override fun getItemViewType(position: Int): Int = items[position].getViewType(factory)
 
-    fun setItems(newItems: Collection<UIState>) {
+    fun setItems(newItems: Collection<RecyclerViewUIState>) {
         diffCallback.setItems(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 

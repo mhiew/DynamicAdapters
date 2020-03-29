@@ -13,7 +13,7 @@ import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 
-class CatView(
+class CatView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,

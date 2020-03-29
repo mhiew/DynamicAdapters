@@ -12,7 +12,7 @@ import ca.hiew.dynamicadapter.common.UIView
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observer
 
-class DogView(
+class DogView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,

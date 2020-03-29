@@ -32,21 +32,21 @@ class UIViewHolder<V, S : UIState>(
         compositeDisposable += outputViewHolderUIEvent(
             position = adapterPosition,
             source = view,
-            consumer = eventRelay
+            output = eventRelay
         )
     }
 
     private fun outputViewHolderUIEvent(
         position: Int,
         source: ObservableSource<UIEvent>,
-        consumer: Consumer<ViewHolderUIEvent>
+        output: Consumer<ViewHolderUIEvent>
     ): Disposable {
         return Observable.wrap(source)
             .map { uiEvent -> ViewHolderUIEvent(position, uiEvent) }
             .subscribeBy(
                 onNext = { viewHolderUiEvent ->
                     Timber.d("$viewHolderUiEvent")
-                    consumer.accept(viewHolderUiEvent)
+                    output.accept(viewHolderUiEvent)
                 }
             )
     }

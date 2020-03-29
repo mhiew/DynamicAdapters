@@ -10,7 +10,7 @@ import ca.hiew.dynamicadapter.common.UIEvent
 import ca.hiew.dynamicadapter.common.UIView
 import ca.hiew.dynamicadapter.util.exhaustive
 import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.Observer
+import io.reactivex.ObservableSource
 
 class CatView @JvmOverloads constructor(
     context: Context?,
@@ -19,7 +19,8 @@ class CatView @JvmOverloads constructor(
     private val eventRelay: PublishRelay<UIEvent> = PublishRelay.create()
 ) :
     ConstraintLayout(context, attrs, defStyle),
-    UIView<CatUIState> {
+    UIView<CatUIState>,
+    ObservableSource<UIEvent> by eventRelay {
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_id) }
     private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_name) }
 
@@ -58,10 +59,6 @@ class CatView @JvmOverloads constructor(
     private fun display(errorMessage: String?) {
         idTextView.visibility = GONE
         nameTextView.text = errorMessage
-    }
-
-    override fun subscribe(observer: Observer<in UIEvent>) {
-        eventRelay.subscribe(observer)
     }
 
     sealed class Event : UIEvent {

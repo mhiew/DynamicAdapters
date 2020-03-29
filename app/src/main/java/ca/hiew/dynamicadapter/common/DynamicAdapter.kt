@@ -9,14 +9,14 @@ import io.reactivex.ObservableSource
 class DynamicAdapter(
     private val items: MutableList<UIState> = mutableListOf(),
     private val factory: ViewHolderFactory = UIViewHolderFactory(),
-    private val viewHolderUiEventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
+    private val viewHolderUIEventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
 ) :
     RecyclerView.Adapter<UIStateViewHolder<UIState>>(),
-    ObservableSource<ViewHolderUIEvent> by viewHolderUiEventRelay {
+    ObservableSource<ViewHolderUIEvent> by viewHolderUIEventRelay {
 
     val diffCallback = DiffCallback()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UIStateViewHolder<UIState> {
-        return factory.getViewHolder(viewType, parent.context, viewHolderUiEventRelay)
+        return factory.getViewHolder(viewType, parent.context, viewHolderUIEventRelay)
     }
 
     override fun onBindViewHolder(holder: UIStateViewHolder<UIState>, position: Int) {

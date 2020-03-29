@@ -3,10 +3,10 @@ package ca.hiew.dynamicadapter.common
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.plusAssign
 
 abstract class ViewHolder<S : UIState>(view: View) : RecyclerView.ViewHolder(view) {
@@ -25,21 +25,22 @@ class UIViewHolder<V, S : UIState>(
     override fun bind(uiState: S) {
         compositeDisposable.clear()
         view.accept(uiState)
-        compositeDisposable += outputViewHolderUIEvent(
-            position = adapterPosition,
-            source = view,
-            output = eventOutput
-        )
+        compositeDisposable += observableViewHolderUIEvent.subscribe(eventOutput)
     }
 
-    private fun outputViewHolderUIEvent(
-        position: Int,
-        source: ObservableSource<UIEvent>,
-        output: Consumer<ViewHolderUIEvent>
-    ): Disposable {
-        return Observable.wrap(source)
-            .map { uiEvent -> ViewHolderUIEvent(position, uiEvent) }
-            .subscribe(output)
-    }
+    private val observableAdapterPosition: Observable<Int> =
+        Observable.fromCallable { adapterPosition }
+
+    private val observableUIEvent: Observable<UIEvent> = Observable.wrap(view)
+
+    //combines current adapter Position and UIEvent to create a ViewHolderUIEvent
+    private val observableViewHolderUIEvent: Observable<ViewHolderUIEvent> =
+        Observables.combineLatest(
+            observableAdapterPosition,
+            observableUIEvent
+        ) { adapterPosition, event ->
+            ViewHolderUIEvent(position = adapterPosition, uiEvent = event)
+        }
 }
+
 

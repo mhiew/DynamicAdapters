@@ -5,12 +5,12 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.DynamicAdapter
-import ca.hiew.dynamicadapter.common.RecyclerViewUIState
+import ca.hiew.dynamicadapter.common.DiffableUIModel
 import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
-import ca.hiew.dynamicadapter.ui.cat.CatUIState
+import ca.hiew.dynamicadapter.ui.cat.CatUIModel
 import ca.hiew.dynamicadapter.ui.cat.CatView
-import ca.hiew.dynamicadapter.ui.dog.DogUIState
+import ca.hiew.dynamicadapter.ui.dog.DogUIModel
 import ca.hiew.dynamicadapter.ui.dog.DogView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,10 +41,11 @@ class MainActivity : Activity() {
             onNext = { event: ViewHolderUIEvent ->
                 Timber.d("$event")
                 when (event.uiEvent) {
-                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position}")
-                        adapter.setItems(shuffleData())
+                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position} ${items[event.position]}")
+                        //adapter.setItems(shuffleData())
                     }
-                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position}")
+                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position} ${items[event.position]}")
+                        Timber.d("cat selected: ${items[event.position]}")
                         adapter.setItems(loadData())
                     }
                 }
@@ -57,20 +58,20 @@ class MainActivity : Activity() {
         compositeDisposable.clear()
     }
 
-    private fun loadData(): List<RecyclerViewUIState> {
-        val items: List<RecyclerViewUIState> = (0 until 20).toList().map {
+    private fun loadData(): List<DiffableUIModel> {
+        val items: List<DiffableUIModel> = (0 until 20).toList().map {
             if (it % 2 == 0) {
-                DogUIState(id = it, name = "dog $it")
+                DogUIModel(id = it, name = "dog $it")
             } else if (it % 3 == 0) {
-                CatUIState.Error("fake error $it")
+                CatUIModel.Error("fake error $it")
             } else {
-                CatUIState.Success(Cat(id = it, name = "cat $it"))
+                CatUIModel.Success(Cat(id = it, name = "cat $it"))
             }
         }
         return items
     }
 
-    private fun shuffleData(): List<RecyclerViewUIState> {
+    private fun shuffleData(): List<DiffableUIModel> {
         val shuffledList = loadData().toMutableList()
             shuffledList.shuffle()
         return shuffledList

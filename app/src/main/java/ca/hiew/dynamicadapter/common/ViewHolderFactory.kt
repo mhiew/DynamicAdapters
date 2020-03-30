@@ -1,15 +1,15 @@
 package ca.hiew.dynamicadapter.common
 
 import android.content.Context
-import ca.hiew.dynamicadapter.ui.cat.CatUIState
+import ca.hiew.dynamicadapter.ui.cat.CatUIModel
 import ca.hiew.dynamicadapter.ui.cat.CatView
-import ca.hiew.dynamicadapter.ui.dog.DogUIState
+import ca.hiew.dynamicadapter.ui.dog.DogUIModel
 import ca.hiew.dynamicadapter.ui.dog.DogView
 import io.reactivex.functions.Consumer
 
 interface ViewHolderFactory {
-    fun getViewType(state: RecyclerViewUIState): Int
-    fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIState>
+    fun getViewType(uiModel: DiffableUIModel): Int
+    fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIModel>
 }
 
 class UIViewHolderFactory : ViewHolderFactory {
@@ -18,20 +18,20 @@ class UIViewHolderFactory : ViewHolderFactory {
         DOG
     }
 
-    override fun getViewType(state: RecyclerViewUIState): Int {
-        return when (state) {
-            is CatUIState -> ViewType.CAT.ordinal
-            is DogUIState -> ViewType.DOG.ordinal
-            else -> throw RuntimeException("cannot find corresponding UIState $state")
+    override fun getViewType(uiModel: DiffableUIModel): Int {
+        return when (uiModel) {
+            is CatUIModel -> ViewType.CAT.ordinal
+            is DogUIModel -> ViewType.DOG.ordinal
+            else -> throw RuntimeException("cannot find corresponding UIState $uiModel")
         }
     }
 
-    override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIState> {
+    override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIModel> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
             ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventOutput = eventOutput)
             ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventOutput = eventOutput)
             else -> throw RuntimeException("cannot find corresponding ViewHolder for viewType $viewType")
-        } as ViewHolder<UIState>
+        } as ViewHolder<UIModel>
     }
 }

@@ -9,22 +9,22 @@ import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.plusAssign
 
-abstract class ViewHolder<S : UIState>(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(uiState: S)
+abstract class ViewHolder<Model : UIModel>(view: View) : RecyclerView.ViewHolder(view) {
+    abstract fun bind(uiModel: Model)
 }
 
-class UIViewHolder<V, S : UIState>(
-    private val view: V,
+class UIViewHolder<RV, Model : UIModel>(
+    private val view: RV,
     private val eventOutput: Consumer<ViewHolderUIEvent>,
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 ) :
-    ViewHolder<S>(view),
+    ViewHolder<Model>(view),
     Disposable by compositeDisposable
-        where V : View, V : UIView<S> {
+        where RV : View, RV : ReactiveView<Model> {
 
-    override fun bind(uiState: S) {
+    override fun bind(uiModel: Model) {
         compositeDisposable.clear()
-        view.accept(uiState)
+        view.accept(uiModel)
         compositeDisposable += observableViewHolderUIEvent.subscribe(eventOutput)
     }
 

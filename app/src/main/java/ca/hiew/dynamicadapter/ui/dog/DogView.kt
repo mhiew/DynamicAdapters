@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
 import ca.hiew.dynamicadapter.common.UIEvent
-import ca.hiew.dynamicadapter.common.UIView
+import ca.hiew.dynamicadapter.common.ReactiveView
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observer
 
@@ -18,7 +18,7 @@ class DogView @JvmOverloads constructor(
     defStyle: Int = 0,
     private val eventRelay: PublishRelay<UIEvent> = PublishRelay.create()
 ) : ConstraintLayout(context, attrs, defStyle),
-    UIView<DogUIState>
+    ReactiveView<DogUIModel>
 {
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.dog_view_id) }
     private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.dog_view_name) }
@@ -42,10 +42,10 @@ class DogView @JvmOverloads constructor(
         }
     }
 
-    override fun accept(uiState: DogUIState) {
-        idTextView.text = uiState.id.toString()
-        nameTextView.text = uiState.name
-        button.text = uiState.buttonLabel
+    override fun accept(uiModel: DogUIModel) {
+        idTextView.text = uiModel.id.toString()
+        nameTextView.text = uiModel.name
+        button.text = uiModel.buttonLabel
     }
 
     override fun subscribe(observer: Observer<in UIEvent>) {

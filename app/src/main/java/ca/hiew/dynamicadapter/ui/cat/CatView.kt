@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
 import ca.hiew.dynamicadapter.common.UIEvent
-import ca.hiew.dynamicadapter.common.UIView
+import ca.hiew.dynamicadapter.common.ReactiveView
 import ca.hiew.dynamicadapter.util.exhaustive
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observer
@@ -18,7 +18,7 @@ class CatView @JvmOverloads constructor(
     defStyle: Int = 0
 ) :
     ConstraintLayout(context, attrs, defStyle),
-    UIView<CatUIState> {
+    ReactiveView<CatUIModel> {
     private val idTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_id) }
     private val nameTextView: TextView by lazy { findViewById<TextView>(R.id.cat_view_name) }
 
@@ -42,11 +42,11 @@ class CatView @JvmOverloads constructor(
             .subscribe(observer)
     }
 
-    override fun accept(state: CatUIState) {
-        when (state) {
-            is CatUIState.Success -> display(state.cat)
-            is CatUIState.Loading -> display(state.cat)
-            is CatUIState.Error -> display(state.errorMessage)
+    override fun accept(uiModel: CatUIModel) {
+        when (uiModel) {
+            is CatUIModel.Success -> display(uiModel.cat)
+            is CatUIModel.Loading -> display(uiModel.cat)
+            is CatUIModel.Error -> display(uiModel.errorMessage)
         }.exhaustive
     }
 

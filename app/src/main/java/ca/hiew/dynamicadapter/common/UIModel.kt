@@ -1,8 +1,8 @@
 package ca.hiew.dynamicadapter.common
 
-interface UIState
+interface UIModel
 
-interface RecyclerViewUIState : UIState {
+interface DiffableUIModel : UIModel {
     fun getViewType(factory: ViewHolderFactory): Int = factory.getViewType(this)
     fun areItemsTheSame(o: Any?): Boolean
     fun areContentsTheSame(o: Any?): Boolean = (this == o)

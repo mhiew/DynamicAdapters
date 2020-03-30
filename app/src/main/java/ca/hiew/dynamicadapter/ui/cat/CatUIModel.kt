@@ -1,6 +1,6 @@
 package ca.hiew.dynamicadapter.ui.cat
 
-import ca.hiew.dynamicadapter.common.RecyclerViewUIState
+import ca.hiew.dynamicadapter.common.DiffableUIModel
 import ca.hiew.dynamicadapter.util.areTheSame
 
 data class Cat(
@@ -8,18 +8,18 @@ data class Cat(
     val name: String
 )
 
-sealed class CatUIState : RecyclerViewUIState {
-    data class Success(val cat: Cat) : CatUIState() {
+sealed class CatUIModel : DiffableUIModel {
+    data class Success(val cat: Cat) : CatUIModel() {
         override fun areItemsTheSame(o: Any?): Boolean =
             areTheSame(o) { other -> cat.id == other.cat.id }
     }
 
-    data class Loading(val cat: Cat) : CatUIState() {
+    data class Loading(val cat: Cat) : CatUIModel() {
         override fun areItemsTheSame(o: Any?): Boolean =
             areTheSame(o) { other -> cat.id == other.cat.id }
     }
 
-    data class Error(val errorMessage: String?) : CatUIState() {
+    data class Error(val errorMessage: String?) : CatUIModel() {
         override fun areItemsTheSame(o: Any?): Boolean = areTheSame(o) { other -> errorMessage == other.errorMessage }
     }
 }

@@ -45,8 +45,10 @@ class MainActivity : Activity() {
                         //adapter.setItems(shuffleData())
                     }
                     CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position} ${items[event.position]}")
-                        Timber.d("cat selected: ${items[event.position]}")
                         adapter.setItems(loadData())
+                    }
+                    CatView.Event.CatNameClicked -> {
+                        Timber.d("cat name clicked: ${event.position} ${items[event.position]}")
                     }
                 }
             }
@@ -59,16 +61,13 @@ class MainActivity : Activity() {
     }
 
     private fun loadData(): List<DiffableUIModel> {
-        val items: List<DiffableUIModel> = (0 until 20).toList().map {
-            if (it % 2 == 0) {
-                DogUIModel(id = it, name = "dog $it")
-            } else if (it % 3 == 0) {
-                CatUIModel.Error("fake error $it")
-            } else {
-                CatUIModel.Success(Cat(id = it, name = "cat $it"))
+        return (0 until 20).toList().map {
+            when {
+                (it % 2 == 0) ->  DogUIModel(id = it, name = "dog $it")
+                (it % 3 == 0) ->  CatUIModel.Error("fake error $it")
+                else -> CatUIModel.Success(Cat(id = it, name = "cat $it"))
             }
         }
-        return items
     }
 
     private fun shuffleData(): List<DiffableUIModel> {

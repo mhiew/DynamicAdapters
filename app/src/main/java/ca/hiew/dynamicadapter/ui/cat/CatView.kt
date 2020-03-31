@@ -10,6 +10,7 @@ import ca.hiew.dynamicadapter.common.UIEvent
 import ca.hiew.dynamicadapter.common.ReactiveView
 import ca.hiew.dynamicadapter.util.exhaustive
 import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.Observable
 import io.reactivex.Observer
 
 class CatView @JvmOverloads constructor(
@@ -38,8 +39,9 @@ class CatView @JvmOverloads constructor(
     }
 
     override fun subscribe(observer: Observer<in UIEvent>) {
-        this.clicks().map { Event.CatViewClicked }
-            .subscribe(observer)
+        val clickEvent = this.clicks().map { Event.CatViewClicked }
+        val nameClickEvent = nameTextView.clicks().map { Event.CatNameClicked }
+        Observable.merge(clickEvent, nameClickEvent).subscribe(observer)
     }
 
     override fun accept(uiModel: CatUIModel) {
@@ -63,6 +65,7 @@ class CatView @JvmOverloads constructor(
 
     sealed class Event : UIEvent {
         object CatViewClicked : Event()
+        object CatNameClicked: Event()
     }
 }
 

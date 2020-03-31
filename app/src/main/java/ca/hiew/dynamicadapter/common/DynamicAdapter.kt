@@ -14,7 +14,7 @@ class DynamicAdapter(
     RecyclerView.Adapter<ViewHolder<UIModel>>(),
     ObservableSource<ViewHolderUIEvent> by eventRelay {
 
-    private val asyncDiffer = AsyncListDiffer<DiffableUIModel>(this, DiffItemCallback)
+    private val asyncDiffer = AsyncListDiffer<DiffUIModel>(this, DiffItemCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<UIModel> {
         return factory.getViewHolder(viewType, parent.context, eventRelay)
@@ -28,18 +28,18 @@ class DynamicAdapter(
 
     override fun getItemViewType(position: Int): Int = getItem(position).getViewType(factory)
 
-    fun setItems(newItems: List<DiffableUIModel>) {
+    fun setItems(newItems: List<DiffUIModel>) {
         //quirk - need to make sure we have a new list reference or diffing wont occur with item ordering changes
         val copiedList = ArrayList(newItems)
         asyncDiffer.submitList(copiedList)
     }
 
-    private fun getItem(position: Int): DiffableUIModel = asyncDiffer.currentList[position]
+    private fun getItem(position: Int): DiffUIModel = asyncDiffer.currentList[position]
 }
 
-object DiffItemCallback : DiffUtil.ItemCallback<DiffableUIModel>() {
-    override fun areItemsTheSame(oldItem: DiffableUIModel, newItem: DiffableUIModel): Boolean = oldItem.areItemsTheSame(newItem)
-    override fun areContentsTheSame(oldItem: DiffableUIModel, newItem: DiffableUIModel): Boolean = oldItem.areContentsTheSame(newItem)
+object DiffItemCallback : DiffUtil.ItemCallback<DiffUIModel>() {
+    override fun areItemsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean = oldItem.areItemsTheSame(newItem)
+    override fun areContentsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean = oldItem.areContentsTheSame(newItem)
 }
 
 

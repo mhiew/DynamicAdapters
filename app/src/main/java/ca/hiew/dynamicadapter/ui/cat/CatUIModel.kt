@@ -1,6 +1,6 @@
 package ca.hiew.dynamicadapter.ui.cat
 
-import ca.hiew.dynamicadapter.common.DiffableUIModel
+import ca.hiew.dynamicadapter.common.DiffUIModel
 import ca.hiew.dynamicadapter.util.areTheSame
 
 data class Cat(
@@ -8,7 +8,7 @@ data class Cat(
     val name: String
 )
 
-sealed class CatUIModel : DiffableUIModel {
+sealed class CatUIModel : DiffUIModel {
     data class Success(val cat: Cat) : CatUIModel() {
         override fun areItemsTheSame(o: Any?): Boolean =
             areTheSame(o) { other -> cat.id == other.cat.id }

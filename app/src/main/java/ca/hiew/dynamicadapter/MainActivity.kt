@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.DynamicAdapter
-import ca.hiew.dynamicadapter.common.DiffableUIModel
+import ca.hiew.dynamicadapter.common.DiffUIModel
 import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
 import ca.hiew.dynamicadapter.ui.cat.CatUIModel
@@ -60,7 +60,7 @@ class MainActivity : Activity() {
         compositeDisposable.clear()
     }
 
-    private fun loadData(): List<DiffableUIModel> {
+    private fun loadData(): List<DiffUIModel> {
         return (0 until 20).toList().map {
             when {
                 (it % 2 == 0) ->  DogUIModel(id = it, name = "dog $it")
@@ -70,7 +70,7 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun shuffleData(): List<DiffableUIModel> {
+    private fun shuffleData(): List<DiffUIModel> {
         val shuffledList = loadData().toMutableList()
             shuffledList.shuffle()
         return shuffledList

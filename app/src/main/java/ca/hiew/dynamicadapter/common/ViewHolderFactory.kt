@@ -13,15 +13,17 @@ interface ViewHolderFactory {
 }
 
 class UIViewHolderFactory : ViewHolderFactory {
-    private enum class ViewType {
+    enum class ViewType {
         CAT,
-        DOG
+        DOG;
+
+        val type: Int get() = this.ordinal
     }
 
     override fun getViewType(uiModel: DiffUIModel): Int {
         return when (uiModel) {
-            is CatUIModel -> ViewType.CAT.ordinal
-            is DogUIModel -> ViewType.DOG.ordinal
+            is CatUIModel -> ViewType.CAT.type
+            is DogUIModel -> ViewType.DOG.type
             else -> throw IllegalArgumentException("cannot find corresponding ViewType for $uiModel")
         }
     }
@@ -29,8 +31,8 @@ class UIViewHolderFactory : ViewHolderFactory {
     override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIModel> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
-            ViewType.CAT.ordinal -> DynamicViewHolder(view = CatView(context), eventOutput = eventOutput)
-            ViewType.DOG.ordinal -> DynamicViewHolder(view = DogView(context), eventOutput = eventOutput)
+            ViewType.CAT.type-> DynamicViewHolder(view = CatView(context), eventOutput = eventOutput)
+            ViewType.DOG.type -> DynamicViewHolder(view = DogView(context), eventOutput = eventOutput)
             else -> throw IllegalArgumentException("cannot find corresponding ViewHolder or View for viewType $viewType")
         } as ViewHolder<UIModel>
     }

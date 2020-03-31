@@ -29,8 +29,8 @@ class UIViewHolderFactory : ViewHolderFactory {
     override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIModel> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
-            ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventOutput = eventOutput)
-            ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventOutput = eventOutput)
+            ViewType.CAT.ordinal -> DynamicViewHolder(view = CatView(context), eventOutput = eventOutput)
+            ViewType.DOG.ordinal -> DynamicViewHolder(view = DogView(context), eventOutput = eventOutput)
             else -> throw IllegalArgumentException("cannot find corresponding ViewHolder or View for viewType $viewType")
         } as ViewHolder<UIModel>
     }

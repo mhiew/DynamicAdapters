@@ -13,7 +13,7 @@ abstract class ViewHolder<Model : UIModel>(view: View) : RecyclerView.ViewHolder
     abstract fun bind(uiModel: Model)
 }
 
-class UIViewHolder<RV, Model : UIModel>(
+class DynamicViewHolder<RV, Model : UIModel>(
     private val view: RV,
     private val eventOutput: Consumer<ViewHolderUIEvent>,
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()

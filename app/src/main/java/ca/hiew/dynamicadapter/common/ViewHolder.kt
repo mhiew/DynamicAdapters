@@ -41,6 +41,7 @@ class UIViewHolder<RV, Model : UIModel>(
         ) { adapterPosition, event ->
             ViewHolderUIEvent(position = adapterPosition, uiEvent = event)
         }
+            .filter { vhe: ViewHolderUIEvent -> vhe.position != RecyclerView.NO_POSITION } //sanity
 }
 
 

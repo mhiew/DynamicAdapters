@@ -7,3 +7,5 @@ interface DiffUIModel : UIModel {
     fun areItemsTheSame(o: Any?): Boolean
     fun areContentsTheSame(o: Any?): Boolean = (this == o)
 }
+
+object EmptyUIModel : UIModel

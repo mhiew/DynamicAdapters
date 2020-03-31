@@ -41,14 +41,14 @@ class MainActivity : Activity() {
             onNext = { event: ViewHolderUIEvent ->
                 Timber.d("$event")
                 when (event.uiEvent) {
-                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: ${event.position} ${items[event.position]}")
+                    DogView.Event.DogButtonClicked -> { Timber.d("dog button clicked: $event")
                         //adapter.setItems(shuffleData())
                     }
-                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: ${event.position} ${items[event.position]}")
+                    CatView.Event.CatViewClicked -> { Timber.d("cat view clicked: $event")
                         adapter.setItems(loadData())
                     }
                     CatView.Event.CatNameClicked -> {
-                        Timber.d("cat name clicked: ${event.position} ${items[event.position]}")
+                        Timber.d("cat name clicked: $event")
                     }
                 }
             }

@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.ObservableSource
+import io.reactivex.Observer
 
 class DynamicAdapter(
     private val factory: ViewHolderFactory = UIViewHolderFactory(),
     private val eventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
 ) :
     RecyclerView.Adapter<ViewHolder<UIModel>>(),
-    ObservableSource<ViewHolderUIEvent> by eventRelay {
+    ObservableSource<ViewHolderUIEvent> {
 
     private val asyncDiffer = AsyncListDiffer<DiffUIModel>(this, DiffItemCallback)
 
@@ -35,11 +36,25 @@ class DynamicAdapter(
     }
 
     private fun getItem(position: Int): DiffUIModel = asyncDiffer.currentList[position]
+
+    override fun subscribe(observer: Observer<in ViewHolderUIEvent>) {
+        eventRelay
+            .filter{vhEvent: ViewHolderUIEvent -> vhEvent.position in asyncDiffer.currentList.indices } //sanitize for index out of bounds
+            .map { vhEvent: ViewHolderUIEvent ->
+                //pass along the corresponding UIModel at the position of this UIEvent
+                val uiModel = getItem(vhEvent.position)
+                vhEvent.updateWithUIModel(uiModel)
+            }
+            .subscribe(observer)
+    }
 }
 
 object DiffItemCallback : DiffUtil.ItemCallback<DiffUIModel>() {
-    override fun areItemsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean = oldItem.areItemsTheSame(newItem)
-    override fun areContentsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean = oldItem.areContentsTheSame(newItem)
+    override fun areItemsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean =
+        oldItem.areItemsTheSame(newItem)
+
+    override fun areContentsTheSame(oldItem: DiffUIModel, newItem: DiffUIModel): Boolean =
+        oldItem.areContentsTheSame(newItem)
 }
 
 

@@ -22,7 +22,7 @@ class UIViewHolderFactory : ViewHolderFactory {
         return when (uiModel) {
             is CatUIModel -> ViewType.CAT.ordinal
             is DogUIModel -> ViewType.DOG.ordinal
-            else -> throw RuntimeException("cannot find corresponding UIState $uiModel")
+            else -> throw IllegalArgumentException("cannot find corresponding ViewType for $uiModel")
         }
     }
 
@@ -31,7 +31,7 @@ class UIViewHolderFactory : ViewHolderFactory {
         return when (viewType) {
             ViewType.CAT.ordinal -> UIViewHolder(view = CatView(context), eventOutput = eventOutput)
             ViewType.DOG.ordinal -> UIViewHolder(view = DogView(context), eventOutput = eventOutput)
-            else -> throw RuntimeException("cannot find corresponding ViewHolder for viewType $viewType")
+            else -> throw IllegalArgumentException("cannot find corresponding ViewHolder or View for viewType $viewType")
         } as ViewHolder<UIModel>
     }
 }

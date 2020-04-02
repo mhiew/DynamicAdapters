@@ -52,7 +52,7 @@ class CatView @JvmOverloads constructor(
         }.exhaustive
     }
 
-    private fun display(cat: Cat) = with(cat) {
+    private fun display(cat: CatData) = with(cat) {
         idTextView.visibility = VISIBLE
         idTextView.text = id.toString()
         nameTextView.text = name

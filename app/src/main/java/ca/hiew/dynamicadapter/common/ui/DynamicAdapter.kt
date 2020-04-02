@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
+import io.reactivex.functions.Consumer
 
 class DynamicAdapter(
     private val factory: ViewHolderFactory = UIViewHolderFactory(),
     private val eventRelay: PublishRelay<ViewHolderUIEvent> = PublishRelay.create()
 ) :
     RecyclerView.Adapter<ViewHolder<UIModel>>(),
-    ObservableSource<ViewHolderUIEvent> {
+    ObservableSource<ViewHolderUIEvent>,
+    Consumer<List<DiffUIModel>>
+{
 
     private val asyncDiffer = AsyncListDiffer<DiffUIModel>(this,
         DiffItemCallback
@@ -31,7 +34,7 @@ class DynamicAdapter(
 
     override fun getItemViewType(position: Int): Int = getItem(position).getViewType(factory)
 
-    fun setItems(newItems: List<DiffUIModel>) {
+    override fun accept(newItems: List<DiffUIModel>) {
         //quirk - need to make sure we have a new list reference or diffing wont occur with item ordering changes
         val copiedList = ArrayList(newItems)
         asyncDiffer.submitList(copiedList)

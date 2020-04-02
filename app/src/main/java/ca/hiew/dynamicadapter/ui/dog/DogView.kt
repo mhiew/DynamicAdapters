@@ -7,8 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
-import ca.hiew.dynamicadapter.common.UIEvent
-import ca.hiew.dynamicadapter.common.ReactiveView
+import ca.hiew.dynamicadapter.common.ui.UIEvent
+import ca.hiew.dynamicadapter.common.ui.ReactiveView
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observer
 

@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.common
+package ca.hiew.dynamicadapter.common.ui
 
 import io.reactivex.ObservableSource
 import io.reactivex.functions.Consumer

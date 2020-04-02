@@ -1,6 +1,6 @@
 package ca.hiew.dynamicadapter.ui.dog
 
-import ca.hiew.dynamicadapter.common.DiffUIModel
+import ca.hiew.dynamicadapter.common.ui.DiffUIModel
 import ca.hiew.dynamicadapter.util.areTheSame
 
 data class DogUIModel(

@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.common
+package ca.hiew.dynamicadapter.common.ui
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +39,10 @@ class DynamicViewHolder<RV, Model : UIModel>(
             observableAdapterPosition,
             observableUIEvent
         ) { adapterPosition, event ->
-            ViewHolderUIEvent(position = adapterPosition, uiEvent = event)
+            ViewHolderUIEvent(
+                position = adapterPosition,
+                uiEvent = event
+            )
         }
             .filter { vhe: ViewHolderUIEvent -> vhe.position != RecyclerView.NO_POSITION } //sanity
 }

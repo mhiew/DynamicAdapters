@@ -4,9 +4,9 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ca.hiew.dynamicadapter.common.DynamicAdapter
-import ca.hiew.dynamicadapter.common.DiffUIModel
-import ca.hiew.dynamicadapter.common.ViewHolderUIEvent
+import ca.hiew.dynamicadapter.common.ui.DynamicAdapter
+import ca.hiew.dynamicadapter.common.ui.DiffUIModel
+import ca.hiew.dynamicadapter.common.ui.ViewHolderUIEvent
 import ca.hiew.dynamicadapter.ui.cat.Cat
 import ca.hiew.dynamicadapter.ui.cat.CatUIModel
 import ca.hiew.dynamicadapter.ui.cat.CatView

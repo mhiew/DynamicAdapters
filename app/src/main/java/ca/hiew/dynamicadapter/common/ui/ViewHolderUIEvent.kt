@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.common
+package ca.hiew.dynamicadapter.common.ui
 
 data class ViewHolderUIEvent(
     val position: Int,

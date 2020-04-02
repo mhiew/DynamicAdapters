@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.common
+package ca.hiew.dynamicadapter.common.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -15,7 +15,9 @@ class DynamicAdapter(
     RecyclerView.Adapter<ViewHolder<UIModel>>(),
     ObservableSource<ViewHolderUIEvent> {
 
-    private val asyncDiffer = AsyncListDiffer<DiffUIModel>(this, DiffItemCallback)
+    private val asyncDiffer = AsyncListDiffer<DiffUIModel>(this,
+        DiffItemCallback
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<UIModel> {
         return factory.getViewHolder(viewType, parent.context, eventRelay)

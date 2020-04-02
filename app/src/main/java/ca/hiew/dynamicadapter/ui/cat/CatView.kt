@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.hiew.dynamicadapter.R
-import ca.hiew.dynamicadapter.common.UIEvent
-import ca.hiew.dynamicadapter.common.ReactiveView
+import ca.hiew.dynamicadapter.common.ui.UIEvent
+import ca.hiew.dynamicadapter.common.ui.ReactiveView
 import ca.hiew.dynamicadapter.util.exhaustive
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable

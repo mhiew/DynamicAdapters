@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.common
+package ca.hiew.dynamicadapter.common.ui
 
 import android.content.Context
 import ca.hiew.dynamicadapter.ui.cat.CatUIModel
@@ -31,8 +31,14 @@ class UIViewHolderFactory : ViewHolderFactory {
     override fun getViewHolder(viewType: Int, context: Context, eventOutput: Consumer<ViewHolderUIEvent>): ViewHolder<UIModel> {
         @Suppress("UNCHECKED_CAST")
         return when (viewType) {
-            ViewType.CAT.type-> DynamicViewHolder(view = CatView(context), eventOutput = eventOutput)
-            ViewType.DOG.type -> DynamicViewHolder(view = DogView(context), eventOutput = eventOutput)
+            ViewType.CAT.type-> DynamicViewHolder(
+                view = CatView(context),
+                eventOutput = eventOutput
+            )
+            ViewType.DOG.type -> DynamicViewHolder(
+                view = DogView(context),
+                eventOutput = eventOutput
+            )
             else -> throw IllegalArgumentException("cannot find corresponding ViewHolder or View for viewType $viewType")
         } as ViewHolder<UIModel>
     }

@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.ui.dog
+package ca.hiew.dynamicadapter.ui.main.dog
 
 import android.content.Context
 import android.util.AttributeSet

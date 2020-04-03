@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.ui.dog
+package ca.hiew.dynamicadapter.ui.main.dog
 
 import ca.hiew.dynamicadapter.common.ui.DiffUIModel
 import ca.hiew.dynamicadapter.util.areTheSame

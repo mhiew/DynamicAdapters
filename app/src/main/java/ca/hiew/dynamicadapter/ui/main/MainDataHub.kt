@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter
+package ca.hiew.dynamicadapter.ui.main
 
 import ca.hiew.dynamicadapter.common.hub.BaseDataHub
 import ca.hiew.dynamicadapter.domain.Animal
@@ -23,18 +23,30 @@ class MainDataHub : BaseDataHub<MainDataHub.Action, MainDataHub.State, MainDataH
     private fun load() {
         animals.clear()
         animals.addAll(generateData())
-        stateRelay.accept(State(animals))
+        stateRelay.accept(
+            State(
+                animals
+            )
+        )
     }
 
     private fun appendDog() {
         animals += Animal.Dog(id = animals.size)
-        stateRelay.accept(State(animals))
+        stateRelay.accept(
+            State(
+                animals
+            )
+        )
     }
 
     private fun generateCatAnnouncement(position: Int) {
         if(position in animals.indices) {
             val selectedCat = animals[position] as? Animal.Cat ?: return
-            announcementRelay.accept(Announcement.Meow(selectedCat.id))
+            announcementRelay.accept(
+                Announcement.Meow(
+                    selectedCat.id
+                )
+            )
         }
     }
 

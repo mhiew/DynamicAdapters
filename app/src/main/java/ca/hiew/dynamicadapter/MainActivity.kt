@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.hiew.dynamicadapter.common.ui.DynamicAdapter
+import ca.hiew.dynamicadapter.ui.main.MainDataHub
+import ca.hiew.dynamicadapter.ui.main.MainStateToUIModelTransformer
+import ca.hiew.dynamicadapter.ui.main.MainUIEventToActionTransformer
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -28,10 +31,10 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         //DataHub State -> Adapter UIModel
-        compositeDisposable += Observable.wrap(dataHub).compose(StateToUIModelTransformer()).subscribe(adapter)
+        compositeDisposable += Observable.wrap(dataHub).compose(MainStateToUIModelTransformer()).subscribe(adapter)
 
         //Adapter Events -> DataHub Action
-        compositeDisposable += Observable.wrap(adapter).compose(UIEventToActionTransformer()).subscribe(dataHub)
+        compositeDisposable += Observable.wrap(adapter).compose(MainUIEventToActionTransformer()).subscribe(dataHub)
 
         //DataHub Announcements
         compositeDisposable += Observable.wrap(dataHub.announcement).subscribeBy(

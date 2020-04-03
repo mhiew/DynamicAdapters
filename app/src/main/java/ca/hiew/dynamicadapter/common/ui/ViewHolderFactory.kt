@@ -1,10 +1,10 @@
 package ca.hiew.dynamicadapter.common.ui
 
 import android.content.Context
-import ca.hiew.dynamicadapter.ui.cat.CatUIModel
-import ca.hiew.dynamicadapter.ui.cat.CatView
-import ca.hiew.dynamicadapter.ui.dog.DogUIModel
-import ca.hiew.dynamicadapter.ui.dog.DogView
+import ca.hiew.dynamicadapter.ui.main.cat.CatUIModel
+import ca.hiew.dynamicadapter.ui.main.cat.CatView
+import ca.hiew.dynamicadapter.ui.main.dog.DogUIModel
+import ca.hiew.dynamicadapter.ui.main.dog.DogView
 import io.reactivex.functions.Consumer
 
 interface ViewHolderFactory {

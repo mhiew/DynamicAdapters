@@ -1,14 +1,18 @@
-package ca.hiew.dynamicadapter
+package ca.hiew.dynamicadapter.ui.main
 
 import ca.hiew.dynamicadapter.common.ui.ViewHolderUIEvent
-import ca.hiew.dynamicadapter.ui.cat.CatView
-import ca.hiew.dynamicadapter.ui.dog.DogView
+import ca.hiew.dynamicadapter.ui.main.cat.CatView
+import ca.hiew.dynamicadapter.ui.main.dog.DogView
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
-object UIEventToActionTransformer {
+object MainUIEventToActionTransformer {
     operator fun invoke() = ObservableTransformer<ViewHolderUIEvent, MainDataHub.Action> {
-        it.flatMap { event -> Observable.just(transform(event)) }
+        it.flatMap { event -> Observable.just(
+            transform(
+                event
+            )
+        ) }
     }
     private fun transform(event: ViewHolderUIEvent): MainDataHub.Action = when (event.uiEvent) {
         DogView.Event.DogButtonClicked -> MainDataHub.Action.AddDog

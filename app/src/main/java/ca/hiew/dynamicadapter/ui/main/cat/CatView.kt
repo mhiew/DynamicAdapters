@@ -1,4 +1,4 @@
-package ca.hiew.dynamicadapter.ui.cat
+package ca.hiew.dynamicadapter.ui.main.cat
 
 import android.content.Context
 import android.util.AttributeSet

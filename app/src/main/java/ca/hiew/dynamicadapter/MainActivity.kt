@@ -28,10 +28,10 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         //DataHub State -> Adapter UIModel
-        compositeDisposable += Observable.wrap(dataHub).map { StateToUIModelTransformer().transform(it) }.subscribe(adapter)
+        compositeDisposable += Observable.wrap(dataHub).compose(StateToUIModelTransformer()).subscribe(adapter)
 
-        //Adapter Events -> Datahub Events
-        compositeDisposable += Observable.wrap(adapter).map { UIEventToActionTransformer().transform(it) }.subscribe(dataHub)
+        //Adapter Events -> DataHub Action
+        compositeDisposable += Observable.wrap(adapter).compose(UIEventToActionTransformer()).subscribe(dataHub)
 
         //DataHub Announcements
         compositeDisposable += Observable.wrap(dataHub.announcement).subscribeBy(

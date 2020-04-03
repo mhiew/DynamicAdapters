@@ -1,6 +1,7 @@
 package ca.hiew.dynamicadapter
 
 import ca.hiew.dynamicadapter.common.hub.BaseDataHub
+import ca.hiew.dynamicadapter.domain.Animal
 import ca.hiew.dynamicadapter.util.exhaustive
 
 class MainDataHub : BaseDataHub<MainDataHub.Action, MainDataHub.State, MainDataHub.Announcement>() {
@@ -58,10 +59,5 @@ class MainDataHub : BaseDataHub<MainDataHub.Action, MainDataHub.State, MainDataH
     sealed class Announcement {
         data class Meow(val catId: Int) : Announcement()
     }
-}
-
-sealed class Animal {
-    data class Cat(val id: Int) : Animal()
-    data class Dog(val id: Int) : Animal()
 }
 
